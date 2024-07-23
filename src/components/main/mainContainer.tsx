@@ -7,10 +7,8 @@ import OurProducts from "../ourProduct/OurProducts";
 const MainContainer = () => {
   return (
     <div>
-      <Header />
       <Product />
       <OurProducts />
-      <Footer />
     </div>
   );
 };

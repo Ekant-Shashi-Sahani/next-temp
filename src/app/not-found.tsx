@@ -7,7 +7,7 @@ export default function NotFound() {
       <p className="text-gray-300 text-3xl py-5">
         Could not find requested resource
       </p>
-      <button className="bg-primary-300 rounded-lg px-3 py-3 text-white ">
+      <button className="bg-primary-300 rounded-lg px-3 py-3 text-white mb-10">
         <Link href="/">Return Home</Link>
       </button>
     </div>
