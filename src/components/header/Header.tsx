@@ -47,6 +47,11 @@ const Header = () => {
               Blog
             </a>
           </li>
+          <li>
+            <a href="/category" className="">
+            Category
+            </a>
+          </li>
         </ul>
       </div>
     </nav>

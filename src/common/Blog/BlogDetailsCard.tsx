@@ -9,7 +9,7 @@ const fetchBlog = async (Slug: string): Promise<IBlogDetails | null> => {
     const res = await fetch(
       `https://api.prestoenviro.com/api/presto/v1/blogs/slug/${Slug}`,
       {
-        next: { revalidate: 60 }, // Revalidate every 60 seconds
+        next: { revalidate: 60 }, 
       }
     );
     console.log("Fetch Response:", res);

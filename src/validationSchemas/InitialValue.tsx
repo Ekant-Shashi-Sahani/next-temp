@@ -1,9 +1,10 @@
-export const contactInitialValue={
-  
-    name: "",
-    type:"",
-    email: "",
-    message: "",
-    phone: "",
-  
-}
+export const contactInitialValue = {
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    PhoneNumber: "",
+    Company: "",
+    City: "",
+    Message:"",
+};
+

@@ -6,6 +6,8 @@ const TextArea: React.FC<ITextAreaProps> = ({
   value,
   onChange,
   error,
+  errorMessage,
+  
   ...props
 }) => {
   return (

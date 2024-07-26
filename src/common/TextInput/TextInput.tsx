@@ -1,33 +1,70 @@
+"use client";
+
 import React from "react";
-import { ITextInputProps } from "../interface";
-const TextInput: React.FC<ITextInputProps> = ({
+
+const baseInputStyles = `relative w-full px-3 py-2 border rounded-md focus:outline-none`;
+const normalInputStyles = `${baseInputStyles} bg-white border-gray-300 focus:border-gray-500`;
+const errorInputStyles = `${baseInputStyles} bg-white border-red-500 focus:border-red-500`;
+const searchInputStyles = `${baseInputStyles} bg-white border-transparent focus:border-transparent`;
+
+interface LabelProps {
+  children: React.ReactNode;
+  htmlFor: string;
+  error?:boolean;
+}
+
+const Label: React.FC<LabelProps> = ({ children, htmlFor,error }) => (
+  <label htmlFor={htmlFor} className="block font-semibold text-gray-600">
+    {children}{error && <span className="text-red-500">*</span>}
+  </label>
+);
+
+interface TextInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+  label?: string;
+  helperText?: string;
+  isRequired?: boolean;
+  variant?: "search" | "normal";
+  error?: boolean;
+  errorMessage?: string;
+}
+
+const TextInput: React.FC<TextInputProps> = ({
   label,
-  value,
-  onChange,
   error,
-
-  ...props
+  helperText,
+  isRequired,
+  variant = "normal",
+  errorMessage,
+  ...inputProps
 }) => {
-  return (
-    <div className="mx-auto max-w-2xl ">
-      {label && (
-        <label className="block text-sm font-semibold leading-6 text-gray-900">
-          {label}
-        </label>
-      )}
-      <div className="mt-2.5">
-        <input
-          type="text"
-          className="block w-full rounded-md border-0  text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-          value={value}
-          onChange={onChange}
-          {...props}
-        />
-        {error ? <p className="text-red-700 text-sm"></p>:null}
+  const idStr = React.useMemo(() => {
+    const random = Math.random().toString(36).substring(7);
+    return `${inputProps.type}-${random}`;
+  }, [inputProps.type]);
 
-      </div>
+  const inputClass = error
+    ? errorInputStyles
+    : variant === "search"
+    ? searchInputStyles
+    : normalInputStyles;
+
+  return (
+    <div className="my-2 w-full">
+      <Label htmlFor={idStr} error={error}>
+        {label} {isRequired && <span className="text-red-500">*</span>}
+      </Label>
+      <input {...inputProps} id={idStr} className={inputClass} />
+      {helperText && (
+        <p className={`text-sm ${error ? "text-red-500" : "text-gray-500"}`}>
+          {helperText}
+        </p>
+      )}
+      {error && errorMessage && (
+        <p className="text-sm text-red-500">{errorMessage}</p>
+      )}
     </div>
   );
 };
 
+export { Label };
 export default TextInput;
