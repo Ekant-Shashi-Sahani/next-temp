@@ -153,22 +153,37 @@
 // };
 
 // export default ContactUsForm;
-"use client"
-import { useState } from 'react';
-import axios from 'axios';
-
+"use client";
+import { useState } from "react";
+import axios from "axios";
+import ReCAPTCHA from "react-google-recaptcha";
+interface ReCAPTCHAProps {
+  sitekey: string;
+  onChange?: (token: string | null) => void;
+  onErrored?: () => void;
+  onExpired?: () => void;
+  theme?: "light" | "dark";
+  size?: "normal" | "compact";
+  badge?: "bottomright" | "bottomleft" | "inline";
+}
+function onChange(value: any) {
+  console.log("Captcha value:", value);
+}
 const ContactUsForm = () => {
   const [formData, setFormData] = useState({
-    FirstName: '',
-    LastName: '',
-    Email: '',
-    PhoneNumber: '',
-    Company: '',
-    City: '',
-    Message: ''
+    FirstName: "",
+    LastName: "",
+    Email: "",
+    PhoneNumber: "",
+    Company: "",
+    City: "",
+    Message: "",
   });
+  const [verified, setVerified] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
@@ -176,31 +191,47 @@ const ContactUsForm = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-
-    console.log("I am claling")
+    console.log("I am claling");
 
     try {
-      const response = await axios.post('http://10.0.0.10:4152/api/hexa/v1/contacts', formData);
-      alert('Message sent successfully!');
+      const response = await axios.post(
+        "http://10.0.0.10:4152/api/hexa/v1/contacts",
+        formData
+      );
+      alert("Message sent successfully!");
       setFormData({
-        FirstName: '',
-        LastName: '',
-        Email: '',
-        PhoneNumber: '',
-        Company: '',
-        City: '',
-        Message: ''
+        FirstName: "",
+        LastName: "",
+        Email: "",
+        PhoneNumber: "",
+        Company: "",
+        City: "",
+        Message: "",
       });
     } catch (error) {
-      alert('Error sending message. Please try again.');
+      alert("Error sending message. Please try again.");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="max-w-md mx-auto p-4 border rounded shadow-lg mt-10">
-      <h2 className="text-xl font-bold mb-4">Contact Us</h2>
-      <div className="mb-4">
-        <label htmlFor="FirstName" className="block text-sm font-medium text-gray-700">First Name</label>
+    <form
+      onSubmit={handleSubmit}
+      className="max-w-md mx-auto p-4 border rounded shadow-lg mt-10"
+    >
+<div className="flex justify-center items-center my-5 flex-col">
+<h2 className="text-xl font-bold">Contact Us</h2>
+<span className="bg-gray-300 w-[100px] h-[5px] rounded-lg
+"></span>
+
+</div>
+    <div className="grid grid-cols-2 gap-3">
+    <div className="mb-4">
+        <label
+          htmlFor="FirstName"
+          className="block text-sm font-medium text-gray-700"
+        >
+          First Name
+        </label>
         <input
           type="text"
           id="FirstName"
@@ -212,7 +243,12 @@ const ContactUsForm = () => {
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="LastName" className="block text-sm font-medium text-gray-700">Last Name</label>
+        <label
+          htmlFor="LastName"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Last Name
+        </label>
         <input
           type="text"
           id="LastName"
@@ -223,8 +259,15 @@ const ContactUsForm = () => {
           required
         />
       </div>
+    </div>
+    <div className="grid grid-cols-2 gap-3">
       <div className="mb-4">
-        <label htmlFor="Email" className="block text-sm font-medium text-gray-700">Email</label>
+        <label
+          htmlFor="Email"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Email
+        </label>
         <input
           type="email"
           id="Email"
@@ -236,7 +279,12 @@ const ContactUsForm = () => {
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="PhoneNumber" className="block text-sm font-medium text-gray-700">Phone Number</label>
+        <label
+          htmlFor="PhoneNumber"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Phone Number
+        </label>
         <input
           type="tel"
           id="PhoneNumber"
@@ -246,8 +294,15 @@ const ContactUsForm = () => {
           className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
         />
       </div>
+      </div>
+      <div className="grid grid-cols-2 gap-3">
       <div className="mb-4">
-        <label htmlFor="Company" className="block text-sm font-medium text-gray-700">Company</label>
+        <label
+          htmlFor="Company"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Company
+        </label>
         <input
           type="text"
           id="Company"
@@ -258,7 +313,12 @@ const ContactUsForm = () => {
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="City" className="block text-sm font-medium text-gray-700">City</label>
+        <label
+          htmlFor="City"
+          className="block text-sm font-medium text-gray-700"
+        >
+          City
+        </label>
         <input
           type="text"
           id="City"
@@ -268,8 +328,14 @@ const ContactUsForm = () => {
           className="mt-1 block w-full border border-gray-300 rounded px-3 py-2"
         />
       </div>
+      </div>
       <div className="mb-4">
-        <label htmlFor="Message" className="block text-sm font-medium text-gray-700">Message</label>
+        <label
+          htmlFor="Message"
+          className="block text-sm font-medium text-gray-700"
+        >
+          Message
+        </label>
         <textarea
           id="Message"
           name="Message"
@@ -280,6 +346,14 @@ const ContactUsForm = () => {
           required
         />
       </div>
+      <ReCAPTCHA
+        sitekey="6LfR2rkpAAAAAF4N_ajW4BA0Wr7bVdinnKS3tdW5"
+        onChange={() => {
+          console.log(verified, "verifice");
+          setVerified(true);
+        }}
+        type="image"
+      />
       <button
         type="submit"
         className="bg-blue-500 text-white px-4 py-2 rounded"

@@ -29,12 +29,12 @@ const BreadCrumb: React.FC<TBreadCrumb> = (props) => {
   return (
     <div
       className="py-[20px] md:px-0 px-[20px] bg-violet-500 hover:bg-violet-600 active:bg-violet-700   
-    focus:outline-none focus:ring focus:ring-violet-300  flex justify-end items-center gap-5 text-white"
+    focus:outline-none focus:ring focus:ring-violet-300  flex  items-center gap-5 text-white"
     >
-      <h1 className="text-2xl font-semibold text-secondary-main ">
+      <h1 className="text-xl font-semibold text-secondary-main text-left flex-1  pl-4">
         {pageTitle}
       </h1>
-      <ul className="flex items-center gap-5">
+      <ul className="flex items-center gap-5 ">
         {links.map((l, i) => {
           let Icon = i ? BiChevronsRight : BiHome;
           return (
