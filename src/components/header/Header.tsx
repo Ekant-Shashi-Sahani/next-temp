@@ -52,6 +52,11 @@ const Header = () => {
             Category
             </a>
           </li>
+          <li>
+            <a href="/products" className="">
+            Products
+            </a>
+          </li>
         </ul>
       </div>
     </nav>
