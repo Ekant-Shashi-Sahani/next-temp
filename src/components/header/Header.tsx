@@ -53,8 +53,13 @@ const Header = () => {
             </a>
           </li>
           <li>
-            <a href="/products" className="">
-            Products
+            <a href="/blogpost" className="">
+            Blog Post
+            </a>
+          </li>
+          <li>
+            <a href="/productcard" className="">
+            Products card
             </a>
           </li>
         </ul>
