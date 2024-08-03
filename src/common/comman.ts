@@ -11,4 +11,7 @@ export interface TBreadCrumb{
     pageDescription?:string |React.JSX.Element;
     links:Array<TLink>;
     image?:any;
+    backgroundColor?:string;
+    textColor?:string;
+    iconColor?:string;
 }

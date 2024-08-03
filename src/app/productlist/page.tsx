@@ -56,13 +56,19 @@
 
 // export default Products;
 
+import BreadCrumb from '@/common/BreadCrumb/BreadCrumb';
 import { GetServerSideProps } from 'next';
+import Image from 'next/image';
+const generateRandomDiscount = () => {
+  return Math.floor(Math.random() * (50 - 20 + 1)) + 20;
+};
 
 interface Product {
   id: number;
   title: string;
   description: string;
   price: number;
+  thumbnail:string;
   // Add other fields as needed
 }
 
@@ -85,19 +91,58 @@ const Page = async () => {
   const products = data.products || []; // Adjust based on API response structure
 
   return (
-    <main>
-      <h1>Products</h1>
-      <ul>
+   <>
+   <BreadCrumb
+   
+   pageTitle="Product List"
+   links={[
+     {
+       url: "/",
+       title: "Home",
+     },
+     {
+       url: "/productcard",
+       title: "Product List",
+     },
+   ]}
+   backgroundColor="bg-orange-300"
+   textColor="text-white"
+   iconColor="text-white"
+   />
+    <main className='container mx-auto px-2 py-4'>
+      
+
+      <ul className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 lg:gap-2 xl:grid-cols-4 gap-4  ">
         {products.map((product: Product) => (
-          <li key={product.id}>
-            <h2>{product.title}</h2>
+          <li key={product.id} className='px-3 py-4 shadow-md'>
+            <h2 className='bg-orange-300 text-white text-md rounded-md px-3 py-3'>{product.title}</h2>
+            <Image
+                src={product.thumbnail}
+                alt={product.title}
+                height={200}
+                width={200}
+                className="rounded-md"
+              />
             <p>{product.description}</p>
-            <p>Price: ${product.price}</p>
-            {/* Render other product details */}
+           <div className='flex flex-col'>
+              <span className="text-xl font-medium text-black">
+                Offer Price: ₹ {(product.price * 2).toFixed(2)}
+               </span>
+              <span className="text-xl font-medium text-gray-400 line-through">
+                 MRP Price: ₹ {(product.price * 3).toFixed(2)}
+               </span>
+               <span className="text-xl font-medium text-green-600">
+                Discount: {generateRandomDiscount()}%
+              </span>
+            </div>
+            <button className='rounded-sm bg-orange-300 text-white  px-3 py-3 '>
+              Add To Cart
+            </button>
           </li>
         ))}
       </ul>
     </main>
+   </>
   );
 };
 
